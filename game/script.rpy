@@ -1,10 +1,9 @@
-# The script of the game goes in this file.
+﻿# The script of the game goes in this file.
 
 # Declare characters used by this game. The color argument colorizes the
 # name of the character.
 
 define c = Character("Customer")
-
 
 # The game starts here.
 
@@ -17,7 +16,7 @@ label start:
     scene bg bincoinside
 
     # This shows a character sprite. A placeholder is used, but you can
-    # replace it by adding a file named "eileen happy.png" to the images
+    # replace it by adding a file named "customer1.png" to the images
     # directory.
 
     show customer1
@@ -37,39 +36,39 @@ label start:
         "Yo.":
             jump Yo
 
+label Hi:
+    show customer1talk1
+    c "Hey there."
+    jump Hi2
 
-    label Hi:
-        show customer1talk1
-        "Hey there."
-        jump Hi2
+label Hi2:
+    show customer1talk1
+    "..."
 
-    label Hi2:
-        show customer1talk1
-        "..."
-        
-    
-        
     menu:
 
         "How can I help you?":
             jump Herefor
- 
+
         "Seen anything interesting lately?":
             jump Floor
-         
-    label Floor:
-        show customerconfused
-        "Yea, actually. Over in the soda area I heard something under the floor."
-            
 
-
-    label Herefor:
-        show customer1talk1
-        "Looking for a soda. Haven't had a good soda in a while."
-
+label Floor:
+    show customerconfused
+    c "Yea, actually. Over in the soda area I heard something under the floor."
     return
-    label Good:
-        show customer1talk1
-        "Okay, Dracula. Gooood Evening to you too. Haha."
-       
+
+label Herefor:
+    show customer1talk1
+    c "Looking for a soda. Haven't had a good one in a while."
+    return
+
+label Good:
+    show customer1talk1
+    c "Okay, Dracula. Good evening to you too. Haha."
+    return
+
+label Yo:
+    show customer1talk1
+    c "this is what the customer would say in response to 'yo'"
     return
