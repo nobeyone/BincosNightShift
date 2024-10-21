@@ -5,6 +5,13 @@
 
 define c = Character("Customer")
 
+image customer_not_talking = "customer_not_talking.png"
+image customer_confused = "customer_confused.png"
+image customer_talking = "customer_mouth_open.png" 
+
+
+
+
 # The game starts here.
 
 label start:
@@ -19,11 +26,12 @@ label start:
     # replace it by adding a file named "customer1.png" to the images
     # directory.
 
-    show customer1
+    show customer_not_talking
 
     # These display lines of dialogue.
 
     c "Hey."
+
 
     menu:
 
@@ -37,12 +45,12 @@ label start:
             jump Yo
 
 label Hi:
-    show customer1talk1
+    show customer_talking
     c "Hey there."
     jump Hi2
 
 label Hi2:
-    show customer1talk1
+    show customer_talking
     "..."
 
     menu:
@@ -54,21 +62,23 @@ label Hi2:
             jump Floor
 
 label Floor:
-    show customerconfused
+    show customer_confused
     c "Yea, actually. Over in the soda area I heard something under the floor."
     return
 
 label Herefor:
-    show customer1talk1
+    show customer_confused
     c "Looking for a soda. Haven't had a good one in a while."
     return
 
 label Good:
-    show customer1talk1
+    show customer_talking
     c "Okay, Dracula. Good evening to you too. Haha."
+
     return
 
 label Yo:
-    show customer1talk1
+    show customer_talking
     c "this is what the customer would say in response to 'yo'"
+
     return
