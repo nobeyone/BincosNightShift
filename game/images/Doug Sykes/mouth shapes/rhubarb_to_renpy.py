@@ -43,9 +43,32 @@ confirm_unique_letters_in_mouth_shapes()
 # if it gets past this point, then you can use the names of the files to figure out the conversion from mouth letter shape to filename
 letter_to_png = {}
 filenames = pngs_with_highest_first_word_count()
-for letter in "XABCDE":
+for letter in "XABCDEFGH":
     for filename in filenames:
         if letter in filename.split(".png")[0].split(" ")[-1]:
             letter_to_png[letter] = filename
             break
 print(letter_to_png)
+
+with open("blockbuster_mouth_shapes.txt", "r") as f:
+    rhubarb_mouth_shapes = f.read().strip().split("\n")
+
+output_folder_name = "doug_talking_animation.rpy"
+
+directory = "Doug Sykes/mouth shapes/"
+
+with open(output_folder_name, "w") as f:
+    f.write("image doug animation:\n")
+
+    for i, event in enumerate(rhubarb_mouth_shapes[:-1]):
+        # print(event)
+        event = event.split("\t")
+        timestamp = float(event[0])
+        next_timestamp = float(rhubarb_mouth_shapes[i + 1].split('\t')[0])
+        shape = event[1].upper()
+        time_difference = round(next_timestamp - timestamp, 2)
+        f.write(f"{' ' * 4}\"{directory}{letter_to_png[shape]}\"\n{' ' * 4}{time_difference}\n")
+
+    f.write(" " * 4 + "\"" + directory + letter_to_png[rhubarb_mouth_shapes[-1].split("\t")[1].upper()] + "\"")
+
+# print(rhubarb_mouth_shapes)

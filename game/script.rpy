@@ -13,6 +13,8 @@ define doug = Character("Doug")
 
 label start:
 
+    jump doug_scene
+
     # Show a background. This uses a placeholder by default, but you can
     # add a file (named either "bg room.png" or "bg room.jpg") to the
     # images directory to show it.
@@ -60,4 +62,19 @@ label Hi2:
 label Floor:
     show customer confused
     c "Yea, actually. Over in the soda area I heard something under the floor."
+    return
+
+label Herefor:
+    show customer confused
+    c "Looking for a soda. Haven't had a good one in a while."
+    return
+
+label Good:
+    show customer talking
+    c "Okay, Dracula. Gooooood evening to you too. Haha."
+    return
+
+label Yo:
+    show customer talking
+    c "this is what the customer would say in response to 'yo'"
     return

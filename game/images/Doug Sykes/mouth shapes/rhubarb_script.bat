@@ -1,0 +1,1 @@
+rhubarb --extendedShapes "" -o blockbuster_mouth_shapes.txt blockbuster_filtered.wav
