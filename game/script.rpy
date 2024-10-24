@@ -5,10 +5,7 @@
 
 define c = Character("Customer")
 
-image customer_not_talking = "customer_not_talking.png"
-image customer_confused = "customer_confused.png"
-image customer_talking = "customer_mouth_open.png" 
-
+define doug = Character("Doug")
 
 
 
@@ -26,7 +23,7 @@ label start:
     # replace it by adding a file named "customer1.png" to the images
     # directory.
 
-    show customer_not_talking
+    show customer not_talking
 
     # These display lines of dialogue.
 
@@ -45,14 +42,13 @@ label start:
             jump Yo
 
 label Hi:
-    show customer_talking
+    show customer talking
     c "Hey there."
     jump Hi2
 
 label Hi2:
-    show customer_talking
+    show customer not_talking
     "..."
-
     menu:
 
         "How can I help you?":
@@ -62,23 +58,6 @@ label Hi2:
             jump Floor
 
 label Floor:
-    show customer_confused
+    show customer confused
     c "Yea, actually. Over in the soda area I heard something under the floor."
-    return
-
-label Herefor:
-    show customer_confused
-    c "Looking for a soda. Haven't had a good one in a while."
-    return
-
-label Good:
-    show customer_talking
-    c "Okay, Dracula. Good evening to you too. Haha."
-
-    return
-
-label Yo:
-    show customer_talking
-    c "this is what the customer would say in response to 'yo'"
-
     return
