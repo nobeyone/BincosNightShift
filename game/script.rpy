@@ -50,9 +50,6 @@ label Hi:
     jump Hi2
 
 label Hi2:
-    show customer_talking
-    "..."
-
     menu:
 
         "How can I help you?":
@@ -64,18 +61,58 @@ label Hi2:
 label Floor:
     show customer_confused
     c "Yea, actually. Over in the soda area I heard something under the floor."
+    jump UnderFloor
     return
+
+label UnderFloor:
+    show customer_not_talking
+    menu:
+        
+        "Oh, god. Was it a digging sound? Like somebody digging with a shovel?":
+            jump Digging
+
+        "That was probably nothing. Why don't we go take a look, though.":
+            jump Digging
+
+
 
 label Herefor:
     show customer_confused
-    c "Looking for a soda. Haven't had a good one in a while."
-    return
+    c "Looking for a soda. Haven't had a good soda in a long time. Is there a soda machine?"
+    menu:
 
+        "Here's one on me.":
+            jump Heres_A_Soda
+
+    
+label Heres_A_Soda:
+    show customer_not_talking
 label Good:
     show customer_talking
-    c "Okay, Dracula. Good evening to you too. Haha."
+    c "Oookay, Dracula. Good evening to you too. Haha."
+    jump Good_2
 
-    return
+label Good_2:
+    show customer_not_talking
+    menu:
+        "I really am Dracula, by the way.":
+            jump Is_Dracula
+
+        "Not even joking, Dracula lives in a mansion like three minutes from here.":
+            jump Isnt_Dracula
+
+label Is_Dracula:
+    show customer_talking
+    c "Fuck off, haha."
+    jump Is_Dracula2
+
+label Is_Dracula2:
+    show customer_not_talking
+    menu:
+        "I really am Dracula, by the way.":
+            jump Is_Dracula
+
+    
 
 label Yo:
     show customer_talking
