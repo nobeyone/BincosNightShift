@@ -162,7 +162,7 @@ class GameScene(Scene):
     def __init__(self, manager):
         super().__init__(manager)
         # Initialize the back button
-        self.back_button = Button('microphone.png', 'back_button_hover.png',
+        self.back_button = Button('pencil.png', 'pencil_hover.png',
                                   position=(0, 0))
 
     def handle_events(self, events):
