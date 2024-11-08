@@ -75,8 +75,8 @@ class SceneManager:
 # Button Class
 class Button:
     def __init__(self, image_path, hover_image_path, position):
-        self.image_path = r"images/" + image_path
-        self.hover_image_path = r"images/" + hover_image_path
+        self.image_path = os.path.join("images", image_path)
+        self.hover_image_path = os.path.join("images", hover_image_path)
         # Load the images
         self.image = pygame.image.load(self.image_path).convert_alpha()
         self.hover_image = pygame.image.load(self.hover_image_path).convert_alpha()
@@ -131,43 +131,88 @@ class Button:
     def draw(self, surface):
         surface.blit(self.current_image, self.rect)
 
-# Menu Scene with a Start Button
-class MenuScene(Scene):
+# Logo Scene to display the logo for 2 seconds
+class LogoScene(Scene):
     def __init__(self, manager):
         super().__init__(manager)
-        # Initialize the start button
-        self.start_button = Button('start_button.png', 'start_button_hover.png',
-                                   position=(SCREEN_WIDTH/2 - 100, SCREEN_HEIGHT/2 - 50))
+        self.logo_image = pygame.image.load(os.path.join("images", "nobey logo.png")).convert_alpha()
+        self.logo_rect = self.logo_image.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+        self.timer = 0  # Timer to track elapsed time
 
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+    def update(self, dt):
+        self.timer += dt
+        if self.timer >= 2.0:  # 2 seconds have passed
+            self.manager.go_to(MenuScene(self.manager))
+
+    def render(self, surface):
+        surface.fill(BLACK)
+        surface.blit(self.logo_image, self.logo_rect)
+
+# Menu Scene with New Game and Load Game buttons
+class MenuScene(Scene):
+    def __init__(self, manager):
+        super().__init__(manager)
+        # Initialize the New Game button
+        self.new_game_button = Button('new_game.png', 'new_game_hover.png',
+                                      position=(0, 0))
+        # Initialize the Load Game button
+        self.load_game_button = Button('load_game.png', 'load_game_hover.png',
+                                       position=(0, 0))
+
+    def handle_events(self, events):
+        for event in events:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 # Adjust mouse position according to scaling
                 adjusted_pos = get_adjusted_mouse_pos(event.pos)
-                if self.start_button.is_clicked(adjusted_pos):
-                    self.manager.go_to(GameScene(self.manager))
+                if self.new_game_button.is_clicked(adjusted_pos):
+                    self.manager.go_to(GameScene(self.manager, new_game=True))
+                elif self.load_game_button.is_clicked(adjusted_pos):
+                    self.manager.go_to(GameScene(self.manager, new_game=False))
 
     def update(self, dt):
         mouse_pos = pygame.mouse.get_pos()
         # Adjust mouse position according to scaling
         adjusted_pos = get_adjusted_mouse_pos(mouse_pos)
-        self.start_button.update(adjusted_pos, dt)
+        self.new_game_button.update(adjusted_pos, dt)
+        self.load_game_button.update(adjusted_pos, dt)
 
     def render(self, surface):
         surface.fill(BLACK)
-        self.start_button.draw(surface)
+        self.new_game_button.draw(surface)
+        self.load_game_button.draw(surface)
 
 # Game Scene with a Back Button
 class GameScene(Scene):
-    def __init__(self, manager):
+    def __init__(self, manager, new_game=True):
         super().__init__(manager)
-        # Initialize the back button
+        self.new_game = new_game
+        if self.new_game:
+            # Placeholder for initializing a new game
+            self.text = "New Game Started"
+        else:
+            # Placeholder for loading an existing game
+            self.text = "Load Game Selected"
+        # Initialize the Back button
         self.back_button = Button('pencil.png', 'pencil_hover.png',
-                                  position=(0, 0))
+                                  position=(10, 10))
+        # Set up font for displaying text
+        self.font = pygame.font.SysFont(None, 36)
 
     def handle_events(self, events):
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                 # Adjust mouse position according to scaling
                 adjusted_pos = get_adjusted_mouse_pos(event.pos)
                 if self.back_button.is_clicked(adjusted_pos):
@@ -182,16 +227,21 @@ class GameScene(Scene):
     def render(self, surface):
         surface.fill(BLACK)
         self.back_button.draw(surface)
+        # Render the text in the center
+        text_surface = self.font.render(self.text, True, WHITE)
+        text_rect = text_surface.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2))
+        surface.blit(text_surface, text_rect)
 
 # Main Function
 def main():
     global is_fullscreen, clock, game_surface
     clock = pygame.time.Clock()
     update_display_mode()
-    pygame.display.set_caption("Pygame Scene Manager Example with Buttons")
+    pygame.display.set_caption("Pygame Scene Manager with Logo and Menu")
     # Create a game surface with the original resolution
     game_surface = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
-    manager = SceneManager(MenuScene(None))
+    # Initialize SceneManager with LogoScene
+    manager = SceneManager(LogoScene(None))
     manager.current_scene.manager = manager  # Assign manager after creation
     running = True
 
@@ -222,6 +272,9 @@ def main():
         # Blit the scaled_surface onto the screen at the calculated position
         screen.blit(scaled_surface, (x_pos, y_pos))
         pygame.display.flip()
+
+    pygame.quit()
+    sys.exit()
 
 if __name__ == "__main__":
     main()
