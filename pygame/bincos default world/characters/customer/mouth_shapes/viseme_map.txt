@@ -1,0 +1,6 @@
+A:
+B:
+C: mouth open
+D: mouth open
+E: mouth open
+F: mouth open

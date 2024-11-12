@@ -1,0 +1,11 @@
+Dialogue for option 1!
+0000002
+
+Dialogue for option 2!
+0000003
+
+Dialogue for option 3!
+0000004
+
+Dialogue for option 4!
+0000005
